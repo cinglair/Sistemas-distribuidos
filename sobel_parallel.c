@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "omp.h"
-// Inclua a biblioteca OpenMP
+#include <omp.h>
 
 // Função para aplicar o filtro Sobel a uma imagem
 void filtroSobel(unsigned char *imagem, int largura, int altura)
@@ -60,7 +59,7 @@ int main()
 {
     // Carregar a imagem usando a biblioteca stb_image
     int largura, altura, canais;
-    unsigned char *imagem = stbi_load("taj_orig.jpg", &largura, &altura, &canais, 0);
+    unsigned char *imagem = stbi_load("imagem.jpg", &largura, &altura, &canais, 0);
     if (!imagem)
     {
         fprintf(stderr, "Erro ao carregar a imagem.\n");
@@ -78,7 +77,6 @@ int main()
     // Iniciar o tempo de medição
     double start_time = omp_get_wtime();
 
-    // Aplicar o filtro Sobel na imagem
     filtroSobel(imagem, largura, altura);
 
     // Parar o tempo de medição
@@ -86,7 +84,7 @@ int main()
     printf("Tempo de execução: %f segundos\n", end_time - start_time);
 
     // Salvar a imagem resultante
-    if (!stbi_write_jpg("taj_sobel.jpg", largura, altura, 3, imagem, 100))
+    if (!stbi_write_jpg("imagem_sobel.jpg", largura, altura, 3, imagem, 100))
     {
         fprintf(stderr, "Erro ao salvar a imagem resultante.\n");
     }
@@ -94,7 +92,7 @@ int main()
     // Liberar a memória da imagem
     stbi_image_free(imagem);
 
-    printf("Filtro Sobel aplicado com sucesso. A imagem resultante foi salva como 'taj_sobel.jpg'.\n");
+    printf("Filtro Sobel aplicado com sucesso. A imagem resultante foi salva como 'imagem_sobel.jpg'.\n");
 
     return 0;
 }
